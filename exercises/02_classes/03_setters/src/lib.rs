@@ -19,6 +19,24 @@ impl Item {
             n_visits: 0,
         }
     }
+
+    #[getter]
+    fn get_price(&mut self) -> u64 {
+        self.increment_n_visits();
+        self.price
+    }
+
+    #[getter]
+    fn get_name(&mut self) -> String {
+        self.increment_n_visits();
+        self.name.clone()
+    }
+}
+
+impl Item {
+    fn increment_n_visits(&mut self) {
+        self.n_visits += 1;
+    }
 }
 
 #[pymodule]
