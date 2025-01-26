@@ -2,16 +2,19 @@ use pyo3::prelude::*;
 
 #[pyfunction]
 // Modify this function to release the GIL while computing the nth prime number.
-fn nth_prime(n: u64) -> u64 {
+fn nth_prime(py: Python<'_>, n: u64) -> u64 {
     let mut count = 0;
     let mut num = 2; // Start checking primes from 2
+    py.allow_threads(|| {
     while count < n {
         if is_prime(num) {
             count += 1;
         }
         num += 1;
     }
+    });
     num - 1 // Subtract 1 because we increment after finding the nth prime
+    
 }
 
 fn is_prime(n: u64) -> bool {
